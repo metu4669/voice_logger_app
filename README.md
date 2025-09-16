@@ -27,9 +27,10 @@ It records audio, transcribes it with **OpenAI Whisper**, then analyzes the text
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
-bash
+```bash```
 git clone https://github.com/metu4669/voice_logger_app.git
 cd voice_logger_app
+
 
 ### 2. Install Dependencies
 npm install
