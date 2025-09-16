@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Voice Logger Demo</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { padding: 10px 15px; margin: 5px; }
+    table { border-collapse: collapse; margin-top: 20px; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    audio { width: 200px; }
+  </style>
+</head>
+<body>
+  <h2>AI Voice Logger Demo</h2>
+  <p>Record staff updates. Transcription and analysis are automatic.</p>
+
+  <button id="startBtn" type="button">Start Recording</button>
+  <button id="stopBtn" type="button" disabled>Stop Recording</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Staff Name</th>
+        <th>Transcription</th>
+        <th>Analysis</th>
+        <th>Playback</th>
+      </tr>
+    </thead>
+    <tbody id="logTable"></tbody>
+  </table>
+
+  <script>
+    let mediaRecorder, audioChunks = [];
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const logTable = document.getElementById('logTable');
+
+    startBtn.onclick = async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'update.webm');
+
+        try {
+          const response = await fetch('http://localhost:3000/transcribe', {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+          console.log('Backend result:', result);
+
+          const { transcription, analysis } = result;
+
+          // Add entry to table
+          const row = logTable.insertRow();
+          row.insertCell(0).innerText = new Date().toLocaleTimeString();
+          row.insertCell(1).innerText = "Staff 1"; // Optional: input field
+          row.insertCell(2).innerText = transcription;
+          row.insertCell(3).innerText = analysis;
+
+          // Playback
+          const playbackCell = row.insertCell(4);
+          const audioEl = document.createElement('audio');
+          audioEl.controls = true;
+          audioEl.src = URL.createObjectURL(audioBlob);
+          playbackCell.appendChild(audioEl);
+
+        } catch (err) {
+          console.error('Fetch error:', err);
+        }
+      };
+
+      mediaRecorder.start();
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    };
+
+    stopBtn.onclick = async (e) => {
+      e.preventDefault(); // stops reload
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      }
+    };
+
+    // Prevent accidental form submits if any
+    window.addEventListener('submit', e => e.preventDefault());
+  </script>
+</body>
+</html>
