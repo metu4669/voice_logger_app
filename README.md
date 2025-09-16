@@ -27,19 +27,23 @@ It records audio, transcribes it with **OpenAI Whisper**, then analyzes the text
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
-```bash```
+```bash
 git clone https://github.com/metu4669/voice_logger_app.git
 cd voice_logger_app
-
+```
 
 ### 2. Install Dependencies
+```bash
 npm install
+```
 
 ### 3. Environment Variables
 
 Create a .env file based on the included example:
 
+```bash
 cp .env.example .env
+```
 
 
 Edit .env:
@@ -48,8 +52,9 @@ OPENAI_API_KEY=your_openai_api_key_here
 PORT=3000
 
 ### 4. Run the Server
+```bash
 npm start
-
+```
 
 The API will run at http://localhost:3000
 
