@@ -48,8 +48,10 @@ cp .env.example .env
 
 Edit .env:
 
+```bash
 OPENAI_API_KEY=your_openai_api_key_here
 PORT=3000
+```
 
 ### 4. Run the Server
 ```bash
@@ -65,17 +67,21 @@ Upload a single audio file (audio field).
 
 Request Example
 
+```bash
 curl -X POST http://localhost:3000/transcribe \
   -F "audio=@sample.webm"
-
+```
 
 Response Example
 
+```bash
 {
   "transcription": "User’s spoken text here...",
   "analysis": "Summary, keywords, and suggestions."
 }
+```
 
+```bash
 📂 Project Structure
 .
 ├─ uploads/        # Temporary audio files (auto-cleaned)
@@ -83,3 +89,4 @@ Response Example
 ├─ package.json
 ├─ .env.example    # Environment variable template
 └─ .gitignore
+```
