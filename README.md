@@ -90,3 +90,16 @@ Response Example
 ├─ .env.example    # Environment variable template
 └─ .gitignore
 ```
+💡 Tips & Best Practices
+
+- Temporary audio files in uploads/ are auto-deleted after processing.
+- Make sure your OPENAI_API_KEY is valid and has access to whisper-1 and gpt-4o-mini.
+- You can extend the API to accept more audio formats by adjusting Multer’s configuration.
+- Optional: Create a simple HTML frontend to upload audio files and call /transcribe for testing.
+
+
+📝 License
+Released under the MIT License.
+Feel free to fork, modify, and use it in your own voice-to-notes projects.
+
+Made with ❤️ and ☕ by [metu4669]
