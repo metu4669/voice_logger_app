@@ -4,6 +4,7 @@ A lightweight Node.js + Express server that turns spoken updates into **actionab
 It records audio, transcribes it with **OpenAI Whisper**, then analyzes the text with **GPT-4o-mini** to produce concise summaries, keywords, and improvement suggestions.
 
 > **Live Repository:** [metu4669/voice_logger_app](https://github.com/metu4669/voice_logger_app)
+> *DEMO:** [Google Drive Link]([https://drive.google.com/file/d/1meBVrgSN-XmkHcUVWpltPgnrOI_Jfuwq/view?usp=drive_link])
 
 ---
 
